@@ -9,7 +9,14 @@
 
 @interface NOStickyCollectionViewCell : UICollectionViewCell
 
+/**
+ *  When set to YES, displays the photo in selected state, showing an overlay and a small checkbox icon.
+ */
 @property (nonatomic) BOOL selectedState;
+
+/**
+ *  URL of the image to display. If the URL is not accessible or erroneous, the cell displays a placeholder image.
+ */
 @property (nonatomic) NSString *imageURL;
 
 @end

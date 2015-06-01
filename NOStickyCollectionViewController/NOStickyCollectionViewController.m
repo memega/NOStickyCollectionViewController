@@ -25,51 +25,6 @@ NSString * const NOStickyCollectionSelectedItemsDidChangeNotification = @"NOStic
 
 @implementation NOStickyCollectionViewController
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        [self prepareViewController];
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self)
-    {
-        [self prepareViewController];
-    }
-    return self;
-}
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
-        [self prepareViewController];
-    }
-    return self;
-}
-
-- (instancetype)initWithCollectionViewLayout:(UICollectionViewLayout *)layout
-{
-    self = [super initWithCollectionViewLayout:layout];
-    if (self)
-    {
-        [self prepareViewController];
-    }
-    return self;
-}
-
-- (void)prepareViewController
-{
-    self.maxSelectedCellCount = NSNotFound;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -176,7 +131,7 @@ NSString * const NOStickyCollectionSelectedItemsDidChangeNotification = @"NOStic
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NOStickyCollectionViewCell *cell = (NOStickyCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    if (self.maxSelectedCellCount != NSNotFound && self.selectedCells.count >= self.maxSelectedCellCount)
+    if (self.maxSelectedCellCount > 0 && self.selectedCells.count >= self.maxSelectedCellCount)
     {
         // Cannot select anymore
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry"
@@ -185,6 +140,9 @@ NSString * const NOStickyCollectionSelectedItemsDidChangeNotification = @"NOStic
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
+        
+        [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
+        cell.selectedState = NO;
     }
     else
     {

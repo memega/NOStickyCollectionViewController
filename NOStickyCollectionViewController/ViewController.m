@@ -25,7 +25,7 @@ static NSUInteger const _NOMaxSelectedCellsCount = 20;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // prepare data
+    // populate some URLs
     NSMutableArray *albums = [NSMutableArray new];
     for (NSUInteger i = 0; i < 50; i++)
     {
@@ -57,6 +57,7 @@ static NSUInteger const _NOMaxSelectedCellsCount = 20;
 
     stickyCollectionViewController.view.frame = self.view.bounds;
     stickyCollectionViewController.albums = [NSArray arrayWithArray:albums];
+    stickyCollectionViewController.maxSelectedCellCount = _NOMaxSelectedCellsCount;
 
     [self.view addSubview:stickyCollectionViewController.view];
     
@@ -66,7 +67,7 @@ static NSUInteger const _NOMaxSelectedCellsCount = 20;
                                                  name:NOStickyCollectionSelectedItemsDidChangeNotification
                                                object:stickyCollectionViewController];
     
-    // display current selection
+    // display current selection count
     NONavigationTitleView *titleView = [[NONavigationTitleView alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
     titleView.totalCount = _NOMaxSelectedCellsCount; // max selected
     titleView.selectedCount = 0;
@@ -79,6 +80,11 @@ static NSUInteger const _NOMaxSelectedCellsCount = 20;
 {
     NOStickyCollectionViewController *stickyViewController = notification.object;
     self.titleView.selectedCount = stickyViewController.indexPathsForSelectedItems.count;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
