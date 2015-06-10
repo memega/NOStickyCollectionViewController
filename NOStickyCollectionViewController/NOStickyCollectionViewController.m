@@ -89,6 +89,14 @@ NSString * const NOStickyCollectionSelectedItemsDidChangeNotification = @"NOStic
     {
         BOOL cellSelected = [self.selectedCells containsObject:indexPath];
         cell.selected = cellSelected;
+        if (cellSelected)
+        {
+            [collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        }
+        else
+        {
+            [collectionView deselectItemAtIndexPath:indexPath animated:NO];
+        }
         cell.selectedState = cellSelected;
         
         NOAlbum *album = self.albums[indexPath.section];
